@@ -17,15 +17,15 @@ instructions simulation::createInstruction(string str) {
     size_t s = 0;                  // start of the element of the line
     size_t e = str.find(",");      // end of the element
     short int ele_count = 1;       // element count
-    unsigned long hex_add;
+    unsigned long long hex_add;
     short int type;
-    list<unsigned long> dependencies;
+    list<unsigned long long> dependencies;
     while (e != str.npos) {
         if (ele_count == 1) {
             string subs = str.substr(s, e - s);
             char c[subs.length()];
             strcpy(c, subs.c_str());
-            hex_add = strtol(c, NULL, 16);
+            hex_add = stoul(c, NULL, 16);
         } else if (ele_count == 2) {
             string subs = str.substr(s, e - s);
             type = stoi(subs);
@@ -33,7 +33,7 @@ instructions simulation::createInstruction(string str) {
             string subs = str.substr(s, e - s);
             char c[subs.length()];
             strcpy(c, subs.c_str());
-            unsigned long hex_add_dep = strtol(c, NULL, 16);
+            unsigned long long hex_add_dep = stoul(c, NULL, 16);
             dependencies.push_back(hex_add_dep);
         }
         ele_count++;
@@ -142,6 +142,9 @@ void simulation::printStatistics() {
 
 // debug use only
 void simulation::printStages(DependancyChecker DC) { // debug use only
+    cout << "-================================-" << endl;
+    cout << "=>Clock: " << clock << endl;
+    cout << "-================================-" << endl;
     cout << "IF Stage: " << endl;
     for (instructions i : DC.pipeline.if_list) { 
         cout << hex << i.hex_add << "; ";
@@ -194,7 +197,7 @@ void simulation::startSimulation(){
             /* debug use only*/
             // cout << hex << ins.hex_add << endl;
             // cout << ins.type << endl;
-            // list<unsigned long>::iterator it;
+            // list<unsigned long long>::iterator it;
             // for (it = ins.dependencies.begin(); it != ins.dependencies.end(); it++) {
             //     cout << hex << *it << endl;
             // }

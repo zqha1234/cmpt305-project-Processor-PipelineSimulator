@@ -124,7 +124,7 @@ class DependancyChecker {
             // }
 
             // Checks for data dependancy
-            for (unsigned long dep : ins.dependencies) {
+            for (unsigned long long dep : ins.dependencies) {
                 for (instructions i : pipeline.ex_list) { // Checks for dependancies in the EX stage
                     if (i.hex_add == dep
                         && i.getEX == false 
