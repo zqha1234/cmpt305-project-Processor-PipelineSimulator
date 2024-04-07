@@ -206,7 +206,7 @@ void simulation::startSimulation(){
         // update every stage
         updateStages(&dc, &ins_mg);
 
-        // printStages(dc); // debug use only print every stage's hex_add
+        printStages(dc); // debug use only print every stage's hex_add
         clock++;
 
         // when finishing all the required instructions, break the loop
