@@ -106,12 +106,16 @@ class DependancyChecker {
             // Checks for data dependancy
             for (unsigned long dep : ins.dependencies) {
                 for (instructions i : pipeline.ex_list) {
-                    if (i.hex_add == dep && (i.type == 1 || i.type == 2 || i.type == 4 || i.type == 5)) { // Integer, Float, Load, or Store
+                    if (i.hex_add == dep
+                        && i.getEX == false 
+                        && (i.type == 1 || i.type == 2 || i.type == 4 || i.type == 5)) { // Integer, Float, Load, or Store
                         return false;
                     }
                 }
                 for (instructions i : pipeline.mem_list) {
-                    if (i.hex_add == dep && (ins.type == 4 || ins.type == 5)) { // Load or Store
+                    if (i.hex_add == dep 
+                        // && i.getMEM == false 
+                        && (i.type == 4 || i.type == 5)) { // Load or Store
                         return false;
                     }
                 }
