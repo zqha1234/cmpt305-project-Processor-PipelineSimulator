@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     if (argc >= 5) {
         string f_name = argv[1];
         int start = stoi(argv[2]);
-        int size = stoi(argv[3]);
+        size_t size = stoi(argv[3]);
         short int w = stoi(argv[4]);
         if (start < 0 || size <= 0 || w <1) {
             cout << "Wrong Input!\n" << endl;
