@@ -40,7 +40,13 @@ class DependancyChecker {
             }
 
             // Checks for control dependancy
-            for (instructions i : pipeline.ex_list) {
+            for (instructions i : pipeline.if_list) { // Checks for branch in the IF stage
+                return false;
+            }
+            for (instructions i : pipeline.id_list) { // Checks for branch in the ID stage
+                return false;
+            }
+            for (instructions i : pipeline.ex_list) { // Checks for branch in the EX stage
                 if (i.getEX == 3 && i.getEX == false) { // If the instruction is a branch and has not been executed
                     return false;
                 }
@@ -65,7 +71,10 @@ class DependancyChecker {
             }
 
             // Checks for control dependancy
-            for (instructions i : pipeline.ex_list) {
+            for (instructions i : pipeline.id_list) { // Checks for branch in the ID stage
+                return false;
+            }
+            for (instructions i : pipeline.ex_list) { // Checks for branch in the EX stage
                 if (i.getEX == 3 && i.getEX == false) { // If the instruction is a branch and has not been executed
                     return false;
                 }
@@ -90,7 +99,7 @@ class DependancyChecker {
             }
 
             // Checks for structural dependancy
-            for (instructions i : pipeline.ex_list) {
+            for (instructions i : pipeline.ex_list) { 
                 if (i.type == ins.type && (ins.type == 1 || ins.type == 2 || ins.type == 3)) { // Integer, Float, or Branch
                     return false;
                 }
@@ -105,14 +114,14 @@ class DependancyChecker {
 
             // Checks for data dependancy
             for (unsigned long dep : ins.dependencies) {
-                for (instructions i : pipeline.ex_list) {
+                for (instructions i : pipeline.ex_list) { // Checks for dependancies in the EX stage
                     if (i.hex_add == dep
                         && i.getEX == false 
                         && (i.type == 1 || i.type == 2 || i.type == 4 || i.type == 5)) { // Integer, Float, Load, or Store
                         return false;
                     }
                 }
-                for (instructions i : pipeline.mem_list) {
+                for (instructions i : pipeline.mem_list) { // Checks for dependancies in the MEM stage
                     if (i.hex_add == dep 
                         // && i.getMEM == false 
                         && (i.type == 4 || i.type == 5)) { // Load or Store
@@ -160,6 +169,11 @@ class DependancyChecker {
         bool WBClear(instructions ins) {
             return true; //Always true 
         };
+        
+        /*
+        * Destructor for the DependancyChecker class.
+        */
+        ~DependancyChecker();
 
 };
 
