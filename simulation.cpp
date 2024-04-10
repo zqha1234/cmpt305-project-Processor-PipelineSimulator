@@ -47,7 +47,10 @@ instructions simulation::createInstruction(string str) {
 
 // update every stage 
 void simulation::updateStages(DependancyChecker* dc, list<instructions>* ins_mg){
-    
+    // update getEX 
+    for (auto& i : dc->pipeline.ex_list) {
+        i.getEX = true;
+    }
     // wb stage
     while (!dc->pipeline.wb_list.empty()) {
         dc->pipeline.wb_list.pop_front();
@@ -138,12 +141,13 @@ void simulation::printStatistics() {
     cout << "load instructions: " << load_percentage << "%" << endl;
     double store_percentage = store_count * 1.0 / ins_size * 100.0; 
     cout << "store instructions: " << store_percentage << "%" << endl;
+    cout << "clock cycles: " << clock << endl;
 }
 
 // debug use only
 void simulation::printStages(DependancyChecker DC) { // debug use only
     cout << "-================================-" << endl;
-    cout << "=>Clock: " << clock << endl;
+    cout << "=>Clock: " << dec << clock << endl;
     cout << "-================================-" << endl;
     cout << "IF Stage: " << endl;
     for (instructions i : DC.pipeline.if_list) { 
@@ -206,8 +210,9 @@ void simulation::startSimulation(){
         // update every stage
         updateStages(&dc, &ins_mg);
 
-        printStages(dc); // debug use only print every stage's hex_add
         clock++;
+        // printStages(dc); // debug use only print every stage's hex_add
+        
 
         // when finishing all the required instructions, break the loop
         if (ins_count >= (ins_start + ins_size - 1)) {

@@ -1,6 +1,6 @@
 
 #include "pipelineManager.h"
-
+#include <iostream>
 #ifndef DEPENDANCYCHECKER_H_
 #define DEPENDANCY_H_
 
